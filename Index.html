@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGV - Dashboard</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SIDEBAR
+    ════════════════════════════════════════════════════════════════════ -->
+    <aside class="sidebar">
+        <div class="logo">💎 SGV</div>
+
+        <nav class="menu">
+            <a class="active" href="#" data-view="dashboard">Dashboard Principal</a>
+            <a href="#" data-view="productos">Productos</a>
+            <a href="#" data-view="ventas">Ventas</a>
+            <a href="#" data-view="usuarios">Usuarios</a>
+            <a href="#" data-view="reportes">Reportes</a>
+        </nav>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CONTENIDO PRINCIPAL
+    ════════════════════════════════════════════════════════════════════ -->
+    <div class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <nav class="top-menu">
+                <a class="top-link active" data-view="dashboard">Dashboard Principal</a>
+                <a class="top-link" data-view="productos">Productos</a>
+                <a class="top-link" data-view="ventas">Ventas</a>
+                <a class="top-link" data-view="usuarios">Usuarios</a>
+                <a class="top-link" data-view="reportes">Reportes</a>
+            </nav>
+
+            <div class="top-actions">
+                <button class="icon-btn">🔍</button>
+                <button class="icon-btn">🔔</button>
+                <button id="btnOpenProducto" class="btn-primary">Agregar Producto</button>
+                <img src="img/profile.jpg" class="avatar" alt="Usuario">
+            </div>
+        </header>
+
+        <!-- ─────────────────────────────────────────────────────────────
+             CONTENIDO (VISTAS)
+        ────────────────────────────────────────────────────────────────── -->
+        <div class="content">
+
+            <!-- ══════════════════════════════
+                 VISTA: DASHBOARD
+            ═══════════════════════════════════ -->
+            <section id="view-dashboard" class="view active">
+                <h1 class="title">¡Bienvenido, Usuario de SGV!</h1>
+
+                <h2 class="section-title">Estadísticas Clave</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Ventas Totales Hoy</span>
+                            <span>$</span>
+                        </div>
+                        <h3 class="stat-value">$2,345.00</h3>
+                        <p class="stat-trend green">↑ +5.2% respecto a ayer</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Productos Vendidos</span>
+                            <span>📦</span>
+                        </div>
+                        <h3 class="stat-value">158</h3>
+                        <p class="stat-trend green">↑ +12 unidades</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Pedidos Pendientes</span>
+                            <span>🛒</span>
+                        </div>
+                        <h3 class="stat-value">7</h3>
+                        <p class="stat-trend red">↓ -2 desde la semana pasada</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Ganancia Neta (Mes)</span>
+                            <span>📈</span>
+                        </div>
+                        <h3 class="stat-value">$12,890.50</h3>
+                        <p class="stat-trend green">↑ +8.1% este mes</p>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Análisis de Rendimiento</h2>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Ventas y Ganancias Mensuales</h3>
+                        <canvas id="chart1"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Ventas por Categoría de Producto</h3>
+                        <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════
+                 VISTA: PRODUCTOS
+            ═══════════════════════════════════ -->
+            <section id="view-productos" class="view" style="display:none;">
+                <h1 class="title">Lista de Productos</h1>
+
+                <input
+                    type="text"
+                    id="buscadorProductos"
+                    placeholder="Buscar productos..."
+                    style="padding:10px; width:100%; border-radius:8px; border:1px solid #ddd; margin:10px 0;">
+
+                <div id="productosContainer"></div>
+            </section>
+
+            <!-- ══════════════════════════════
+                 VISTA: VENTAS
+            ═══════════════════════════════════ -->
+            <section id="view-ventas" class="view" style="display:none; padding:20px;">
+                <h1 class="title">Módulo de Ventas</h1>
+
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <button id="btnNuevaVenta" class="btn-primary">Registrar Nueva Venta</button>
+                    <button class="btn-white">Filtrar por Cliente</button>
+                    <button class="btn-white">Filtrar por Fecha</button>
+                    <input
+                        type="text"
+                        id="buscarVenta"
+                        placeholder="Buscar venta por ID o cliente..."
+                        style="padding:10px; border-radius:8px; border:1px solid #ddd; flex:1;">
+                </div>
+
+                <div class="tabla-ventas">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Venta</th>
+                                <th>Cliente</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ventasBody">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════
+                 VISTA: USUARIOS
+            ═══════════════════════════════════ -->
+            <section id="view-usuarios" class="view" style="display:none; padding:20px;">
+                <h1 class="title">Gestión de Usuarios</h1>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">Usuarios registrados 👤</div>
+                        <h3 id="totalUsuarios" class="stat-value">0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">Acciones</div>
+                        <button id="btnNuevoUsuario" class="btn-primary">Registrar Usuario</button>
+                    </div>
+                </div>
+
+                <div class="tabla-ventas">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div><!-- /content -->
+
+    </div><!-- /main -->
+
+</div><!-- /layout -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MODALES
+════════════════════════════════════════════════════════════════════════ -->
+
+<!-- MODAL: PRODUCTO -->
+<div id="modalProducto" class="modal" style="display:none;">
+    <div class="modal-content">
+        <h2 id="modalTitle">Agregar Producto</h2>
+
+        <form id="formProductos">
+            <label>Nombre del Producto:</label>
+            <input type="text" id="prodNombre" required>
+
+            <label>Categoría:</label>
+            <select id="prodCategoria">
+                <option value="Electrónica">Electrónica</option>
+                <option value="Ropa">Ropa</option>
+                <option value="Hogar">Hogar</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Libros">Libros</option>
+                <option value="Otros">Otros</option>
+            </select>
+
+            <label>Precio:</label>
+            <input type="number" id="prodPrecio" min="0" step="0.01" required>
+
+            <label>Stock:</label>
+            <input type="number" id="prodStock" min="0" required>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn-cancel" id="cerrarModal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: NUEVA VENTA -->
+<!-- MODAL: NUEVA VENTA -->
+<div id="modalVenta" class="modal">
+    <div class="modal-content venta-modal">
+
+        <div class="venta-modal-header">
+            <h2>Registrar Venta</h2>
+            <button type="button" id="cerrarModalVenta" class="btn-cancel">✕</button>
+        </div>
+
+        <div class="venta-modal-body">
+
+            <!-- Columna izquierda: selección de producto -->
+            <div class="venta-col">
+                <p class="modal-subtitle">Producto</p>
+
+                <button type="button" id="btnSeleccionarProducto" class="btn-primary" style="width:100%; justify-content:center;">
+                    Seleccionar Producto 🔎
+                </button>
+
+                <div class="venta-producto-info">
+                    <div class="info-row">
+                        <span class="info-label">Producto</span>
+                        <input id="ventaProducto" readonly placeholder="—">
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Stock</span>
+                        <input id="ventaStock" readonly placeholder="—">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider vertical -->
+            <div class="venta-divider"></div>
+
+            <!-- Columna derecha: datos de la venta -->
+            <div class="venta-col">
+                <p class="modal-subtitle">Datos de la venta</p>
+
+                <form id="formVenta">
+                    <div class="form-group">
+                        <label>Cliente</label>
+                        <input id="ventaCliente" placeholder="Nombre del cliente">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="number" id="ventaCantidad" min="1" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Total</label>
+                            <input id="ventaTotal" readonly placeholder="$0.00">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select id="ventaEstado">
+                            <option>Completado</option>
+                            <option>Pendiente</option>
+                            <option>Cancelado</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:8px;">
+                        Guardar Venta
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- MODAL SELECTOR PRODUCTOS (anidado) -->
+        <div id="modalProductosVenta" class="modal" style="display:none;">
+            <div class="modal-content selector-modal">
+                <h2>Seleccionar Producto</h2>
+                <p class="modal-subtitle">Busca un producto para agregar a la venta.</p>
+
+                <div class="search-box">
+                    <span>🔍</span>
+                    <input id="buscarProductoVenta" type="text" placeholder="Buscar por nombre o categoría...">
+                </div>
+
+                <div id="productosVenta" class="productos-grid"></div>
+
+                <button id="cerrarProductosVenta" class="btn-cancel">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL: USUARIO -->
+<div id="modalUsuario" class="modal">
+    <div class="modal-content">
+        <h2>Registrar Usuario</h2>
+
+        <form id="formUsuario">
+            <label>Nombre</label>
+            <input id="usuarioNombre" required>
+
+            <label>Password</label>
+            <input id="usuarioPassword" required>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" id="cerrarUsuario" class="btn-cancel">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: DETALLE USUARIO -->
+<div id="modalDetalleUsuario" class="modal">
+    <div class="modal-content">
+        <h2>Información Usuario</h2>
+
+        <p><b>ID:</b> <span id="detalleId"></span></p>
+        <p><b>Nombre:</b> <span id="detalleNombre"></span></p>
+        <p><b>Password:</b> <span id="detallePassword"></span></p>
+
+        <div class="modal-actions">
+            <button class="btn-cancel" id="cerrarDetalleUsuario">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="Script.js"></script>
+
+</body>
+</html>
