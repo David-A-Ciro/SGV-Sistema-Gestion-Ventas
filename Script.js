@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://railway.app";
+
 document.addEventListener("DOMContentLoaded", () => {
  
     /* ═══════════════════════════════════════════════════════════════════
@@ -79,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ── Carga ── */
     async function cargarProductos() {
         try {
-            const respuesta = await fetch("http://localhost:8080/productos");
+            const respuesta = await fetch(`${API_BASE_URL}/productos`);
             productos = await respuesta.json();
             renderProductos();
         } catch (error) {
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         productosContainer.querySelectorAll(".btn-delete").forEach(btn => {
             btn.addEventListener("click", () => {
                 const producto = productos[Number(btn.dataset.i)];
-                fetch(`http://localhost:8080/productos/${producto.id}`, { method: "DELETE" })
+                fetch(`${API_BASE_URL}/productos/${producto.id}`, { method: "DELETE" })
                     .then(() => cargarProductos())
                     .catch(err => console.error(err));
             });
@@ -237,13 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             let respuesta;
             if (id) {
-                respuesta = await fetch(`http://localhost:8080/productos/${id}`, {
+                respuesta = await fetch(`${API_BASE_URL}/productos/${id}`, {
                     method:  "PUT",
                     headers: { "Content-Type": "application/json" },
                     body:    JSON.stringify(nuevo)
                 });
             } else {
-                respuesta = await fetch("http://localhost:8080/productos", {
+                respuesta = await fetch(`${API_BASE_URL}/productos`, {
                     method:  "POST",
                     headers: { "Content-Type": "application/json" },
                     body:    JSON.stringify(nuevo)
@@ -320,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
             metodoPago: "Efectivo"
         };
  
-        fetch("http://localhost:8080/ventas", {
+        fetch(`${API_BASE_URL}/ventas`, {
             method:  "POST",
             headers: { "Content-Type": "application/json" },
             body:    JSON.stringify(venta)
@@ -335,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
     /* ── Carga ventas ── */
     async function cargarVentas() {
-        const respuesta = await fetch("http://localhost:8080/ventas");
+        const respuesta = await fetch(`${API_BASE_URL}/ventas`);
         const datos     = await respuesta.json();
         ventas.length   = 0;
         ventas.push(...datos);
@@ -394,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
             password: document.getElementById("usuarioPassword").value
         };
  
-        const respuesta = await fetch("http://localhost:8080/usuarios/registro", {
+        const respuesta = await fetch(`${API_BASE_URL}/usuarios/registro`, {
             method:  "POST",
             headers: { "Content-Type": "application/json" },
             body:    JSON.stringify(usuario)
@@ -407,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
     /* ── Carga usuarios ── */
     async function cargarUsuarios() {
-        const respuesta = await fetch("http://localhost:8080/usuarios");
+        const respuesta = await fetch(`${API_BASE_URL}/usuarios`);
         const datos     = await respuesta.json();
         usuarios.length = 0;
         usuarios.push(...datos);
