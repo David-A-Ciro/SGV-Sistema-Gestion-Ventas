@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://railway.app";
+const API_BASE_URL = "https://backend-production-e5139.up.railway.app"; //  ¡ESTA SÍ ES!
+
 
 document.addEventListener("DOMContentLoaded", () => {
  
